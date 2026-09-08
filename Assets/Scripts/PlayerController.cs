@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,12 +14,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_moveAction.WasPressedThisFrame())
+        if (!_boardManager || _moveAction == null || !_moveAction.WasPressedThisFrame())
         {
-            var move = _moveAction.ReadValue<Vector2>();
-            var newPosition = _currentPosition + new Vector2Int((int)move.x, (int)move.y);
-            Move(newPosition);
+            return;
         }
+        
+        var move = _moveAction.ReadValue<Vector2>();
+        var newPosition = _currentPosition + new Vector2Int((int)move.x, (int)move.y);
+        Move(newPosition);
+        GameManager.Instance.NextTurn();
     }
 
     public void Spawn(BoardManager boardManager, Vector2Int position)

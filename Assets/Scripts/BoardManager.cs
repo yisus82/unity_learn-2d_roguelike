@@ -10,22 +10,18 @@ public class BoardManager : MonoBehaviour
     
     public int width;
     public int height;
+    public Vector2Int playerSpawnPosition;
     public Tile[] groundTiles;
     public Tile[] wallTiles;
-    public Vector2Int playerSpawnPosition;
 
     private Tilemap _tilemap;
     private Grid _grid;
     private Cell[,] _cells;
-    private PlayerController _playerController;
-
-    private void Start()
-    {
+    
+    public void GenerateBoard() {
         _tilemap = GetComponentInChildren<Tilemap>();
         _grid = GetComponentInChildren<Grid>();
         _cells = new Cell[width, height];
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-
         for (var y = 0; y < height; ++y)
         {
             for(var x = 0; x < width; ++x)
@@ -47,8 +43,6 @@ public class BoardManager : MonoBehaviour
                 _tilemap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
-        
-        _playerController.Spawn(this, playerSpawnPosition);
     }
 
     public Vector3 CellToWorld(Vector2Int cellIndex)

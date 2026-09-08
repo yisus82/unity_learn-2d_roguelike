@@ -119,6 +119,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &204623600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 204623601}
+  - component: {fileID: 204623602}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &204623601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204623600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &204623602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204623600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ec7d928a55d49a7a6abf45bc346b86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +649,7 @@ GameObject:
   - component: {fileID: 1438115575}
   m_Layer: 0
   m_Name: BoardManager
-  m_TagString: Untagged
+  m_TagString: BoardManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -652,6 +696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardManager
   width: 8
   height: 8
+  playerSpawnPosition: {x: 1, y: 1}
   groundTiles:
   - {fileID: 11400000, guid: 6e6078dc6e0344a87b237a4259cde6d3, type: 2}
   - {fileID: 11400000, guid: f5b27e27f54df436196cf16f85265c90, type: 2}
@@ -673,7 +718,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f7e37e514bd32459eb007e13278ab2d5, type: 2}
   - {fileID: 11400000, guid: 18ae5a603f7164cbc82bf6827fa7519a, type: 2}
   - {fileID: 11400000, guid: debf8c05c242b4f4ab7031997d504435, type: 2}
-  playerSpawnPosition: {x: 1, y: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -682,3 +726,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1438115574}
   - {fileID: 568841962}
+  - {fileID: 204623601}
