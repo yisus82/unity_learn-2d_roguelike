@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class BoardManager : MonoBehaviour
 {
-    private class Cell
+    public class Cell
     {
         public bool IsPassable;
     }
@@ -12,14 +12,19 @@ public class BoardManager : MonoBehaviour
     public int height;
     public Tile[] groundTiles;
     public Tile[] wallTiles;
+    public Vector2Int playerSpawnPosition;
 
     private Tilemap _tilemap;
+    private Grid _grid;
     private Cell[,] _cells;
+    private PlayerController _playerController;
 
     private void Start()
     {
         _tilemap = GetComponentInChildren<Tilemap>();
+        _grid = GetComponentInChildren<Grid>();
         _cells = new Cell[width, height];
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         for (var y = 0; y < height; ++y)
         {
@@ -42,6 +47,21 @@ public class BoardManager : MonoBehaviour
                 _tilemap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
+        
+        _playerController.Spawn(this, playerSpawnPosition);
     }
 
+    public Vector3 CellToWorld(Vector2Int cellIndex)
+    {
+        return _grid.GetCellCenterWorld((Vector3Int)cellIndex);
+    }
+
+    public Cell GetCell(Vector2Int cellIndex)
+    {
+        if (cellIndex.x < 0 || cellIndex.x >= width || cellIndex.y < 0 || cellIndex.y >= height)
+        {
+            return null;
+        }
+        return _cells[cellIndex.x, cellIndex.y];
+    }
 }
