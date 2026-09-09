@@ -21,8 +21,10 @@ public class PlayerController : MonoBehaviour
         
         var move = _moveAction.ReadValue<Vector2>();
         var newPosition = _currentPosition + new Vector2Int((int)move.x, (int)move.y);
-        Move(newPosition);
-        GameManager.Instance.NextTurn();
+        if (Move(newPosition))
+        {
+            GameManager.Instance.NextTurn();
+        }
     }
 
     public void Spawn(BoardManager boardManager, Vector2Int position)
@@ -31,14 +33,15 @@ public class PlayerController : MonoBehaviour
         Move( position);
     }
 
-    private void Move(Vector2Int position)
+    private bool Move(Vector2Int position)
     {
         if (!_boardManager.GetCell(position).IsPassable)
         {
-            return;
+            return false;
         }
         
         _currentPosition = position;
         transform.position = _boardManager.CellToWorld(position);
+        return true;
     }
 }

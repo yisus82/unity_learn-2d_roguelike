@@ -58,4 +58,9 @@ public class BoardManager : MonoBehaviour
         }
         return _cells[cellIndex.x, cellIndex.y];
     }
+
+    public void SpawnPlayer(PlayerController player)
+    {
+        player.Spawn(this, playerSpawnPosition);
+    }
 }

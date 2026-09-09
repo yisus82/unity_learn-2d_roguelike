@@ -4,10 +4,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    public GameObject playerPrefab;
     
     private BoardManager _boardManager;
     private PlayerController _playerController;
-    private int turn;
+    private int _turn;
 
     private void Awake()
     {
@@ -23,13 +25,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _boardManager = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>();
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         _boardManager.GenerateBoard();
-        _playerController.Spawn(_boardManager, _boardManager.playerSpawnPosition);
-        turn = 0;
+        var player = Instantiate(playerPrefab);
+        _playerController = player.GetComponent<PlayerController>();
+        _boardManager.SpawnPlayer(_playerController);
+        _turn = 0;
     }
     
     public void NextTurn() {
-        turn++;
+        _turn++;
+        Debug.Log("Turn " + _turn);
     }
 }
