@@ -21,30 +21,44 @@ public class PlayerController : MonoBehaviour
         
         var move = _moveAction.ReadValue<Vector2>();
         var newPosition = _currentPosition + new Vector2Int((int)move.x, (int)move.y);
-        if (Move(newPosition))
-        {
-            GameManager.Instance.NextTurn();
-        }
+        TryToMove(newPosition);
     }
 
     public void Spawn(BoardManager boardManager, Vector2Int position)
     {
         _boardManager = boardManager;
+        if (!_boardManager.GetCell(position).IsPassable)
+        {
+            return;
+        }
         Move( position);
     }
 
-    private bool Move(Vector2Int position)
+    private void TryToMove(Vector2Int position)
     {
         if (!_boardManager.GetCell(position).IsPassable)
         {
-            return false;
+            return;
         }
         
+        GameManager.Instance.NextTurn();
+        var cell = _boardManager.GetCell(position);
+        var containedObject = cell.cellObject;
+        
+        if (containedObject)
+        {
+            containedObject.OnPlayerEntered();
+            if (containedObject is ObstacleObject)
+            {
+                return;
+            }
+        }
+        Move(position);
+    }
+
+    private void Move(Vector2Int position)
+    {
         _currentPosition = position;
         transform.position = _boardManager.CellToWorld(_currentPosition);
-        var cell = _boardManager.GetCell(_currentPosition);
-        var containedObject = cell.cellObject;
-        containedObject?.OnPlayerEntered();
-        return true;
     }
 }

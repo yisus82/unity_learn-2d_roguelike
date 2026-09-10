@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class FoodObject : CellObject
 {
     public int foodAmount;
@@ -8,5 +6,6 @@ public class FoodObject : CellObject
     {
         Destroy(gameObject);
         GameManager.Instance.ChangeFoodAmount(foodAmount);
+        GameManager.Instance.RemoveCellObject(cellPosition);
     }
 }

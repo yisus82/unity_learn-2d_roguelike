@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private int _turn;
     private int _foodAmount;
     private int _foodCount;
+    private int _obstacleCount;
 
     private void Awake()
     {
@@ -29,12 +30,13 @@ public class GameManager : MonoBehaviour
     {
         _turn = 0;
         _foodCount = Random.Range(1, 5);
+        _obstacleCount = Random.Range(5, 10);
         _foodAmount = 100;
         foodText.text = "Food: " + _foodAmount;
         _boardManager = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>();
         var player = Instantiate(playerPrefab);
         _playerController = player.GetComponent<PlayerController>();
-        _boardManager.GenerateBoard(_playerController, _foodCount);
+        _boardManager.GenerateBoard(_playerController, _foodCount, _obstacleCount);
     }
     
     public void NextTurn() {
@@ -50,6 +52,11 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    public void RemoveCellObject(Vector2Int cellPosition)
+    {
+        _boardManager.RemoveCellObject(cellPosition);
     }
 
     private void GameOver()

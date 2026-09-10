@@ -923,10 +923,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 120cef01d4460491d8a6774b6c15e1e5, type: 2}
   - {fileID: 11400000, guid: 59f3eb7e52d08458d9353958a5623070, type: 2}
   wallTiles:
-  - {fileID: 11400000, guid: 659250ab6449f46618c2dd1238d51607, type: 2}
-  - {fileID: 11400000, guid: 4417bcaed574842d1a6fc9faf66a4b72, type: 2}
-  - {fileID: 11400000, guid: 3618e2b0007d14c77b7bfed3e25ef97f, type: 2}
-  - {fileID: 11400000, guid: 29ccc87aac3eb420f90fccc10d57a552, type: 2}
   - {fileID: 11400000, guid: a2db0ff39a06a40088e55340932aaaa9, type: 2}
   - {fileID: 11400000, guid: cd8910471af9e4965a83a53c1e17a9d9, type: 2}
   - {fileID: 11400000, guid: c413ec216a9d5438fbacf9da825693a0, type: 2}
@@ -937,6 +933,11 @@ MonoBehaviour:
   foodPrefabs:
   - {fileID: 4321974959716829101, guid: 2e50c2b8730854586a05d3dfb35e7d29, type: 3}
   - {fileID: 12291331451440932, guid: 5dee89f824fde4d018c04c39f8493065, type: 3}
+  obstaclePrefabs:
+  - {fileID: 5979817498087529724, guid: d24e6f06f4a9b48c6ac1421177f19750, type: 3}
+  - {fileID: 5448136282889679889, guid: e9ac0106363ee4b85bd9048a86fefafc, type: 3}
+  - {fileID: 3708092004160848192, guid: 7a1cb43f9e8ed44c7b82329a69657560, type: 3}
+  - {fileID: 8138267379507910090, guid: 4a8b7399b3a624c8bb2e693f4763301c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

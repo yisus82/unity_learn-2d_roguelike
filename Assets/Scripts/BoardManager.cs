@@ -16,17 +16,20 @@ public class BoardManager : MonoBehaviour
     public Tile[] groundTiles;
     public Tile[] wallTiles;
     public FoodObject[] foodPrefabs;
+    public ObstacleObject[] obstaclePrefabs;
 
     private Tilemap _tilemap;
     private Grid _grid;
     private Cell[,] _cells;
     private List<Vector2Int> _emptyCells;
     private int _foodCount;
+    private int _obstacleCount;
     private PlayerController _player;
     
-    public void GenerateBoard(PlayerController player, int foodCount) {
+    public void GenerateBoard(PlayerController player, int foodCount, int obstacleCount) {
         _player = player;
         _foodCount = foodCount;
+        _obstacleCount = obstacleCount;
         _tilemap = GetComponentInChildren<Tilemap>();
         _grid = GetComponentInChildren<Grid>();
         _cells = new Cell[width, height];
@@ -55,6 +58,7 @@ public class BoardManager : MonoBehaviour
         }
         SpawnPlayer();
         GenerateFood();
+        GenerateObstacles();
     }
     
     public Vector3 CellToWorld(Vector2Int cellIndex)
@@ -84,10 +88,39 @@ public class BoardManager : MonoBehaviour
             var emptyCellIndex = Random.Range(0, _emptyCells.Count);
             var emptyCellPosition = _emptyCells[emptyCellIndex];
             var foodPrefab = foodPrefabs[Random.Range(0, foodPrefabs.Length)];
-            var food = Instantiate(foodPrefab);
-            food.transform.position = CellToWorld(emptyCellPosition);
-            var cell = GetCell(emptyCellPosition);
-            cell.cellObject = food;
+            AddCellObject(foodPrefab, emptyCellPosition);
+            _emptyCells.RemoveAt(emptyCellIndex);
+            if (_emptyCells.Count == 0)
+            {
+                break;
+            }
+        }
+    }
+
+    private void AddCellObject(CellObject cellObject, Vector2Int cellPosition)
+    {
+        var obj = Instantiate(cellObject);
+        obj.transform.position = CellToWorld(cellPosition);
+        var cell = GetCell(cellPosition);
+        cell.cellObject = obj;
+        cellObject.cellPosition = cellPosition;
+    }
+
+    public void RemoveCellObject(Vector2Int cellPosition)
+    {
+        var cell = GetCell(cellPosition);
+        cell.cellObject =  null;
+        _emptyCells.Add(cellPosition);
+    }
+    
+    private void GenerateObstacles()
+    {
+        for (var i = 0; i < _obstacleCount; i++)
+        {
+            var emptyCellIndex = Random.Range(0, _emptyCells.Count);
+            var emptyCellPosition = _emptyCells[emptyCellIndex];
+            var obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+            AddCellObject(obstaclePrefab, emptyCellPosition);
             _emptyCells.RemoveAt(emptyCellIndex);
             if (_emptyCells.Count == 0)
             {
