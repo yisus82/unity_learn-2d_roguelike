@@ -41,7 +41,10 @@ public class PlayerController : MonoBehaviour
         }
         
         _currentPosition = position;
-        transform.position = _boardManager.CellToWorld(position);
+        transform.position = _boardManager.CellToWorld(_currentPosition);
+        var cell = _boardManager.GetCell(_currentPosition);
+        var containedObject = cell.cellObject;
+        containedObject?.OnPlayerEntered();
         return true;
     }
 }
