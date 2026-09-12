@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         _turn = 0;
         _level = 0;
-        _foodAmount = 10;
+        _foodAmount = 50;
         foodText.text = "Food: " + _foodAmount;
         _boardManager = GameObject.FindGameObjectWithTag("BoardManager").GetComponent<BoardManager>();
         var player = Instantiate(playerPrefab);
