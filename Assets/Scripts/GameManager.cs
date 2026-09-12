@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
+        _playerController.GetComponent<Animator>().SetTrigger("Die");
         gameOverText.text = "Game Over!\n\nYou've died on day " + _level +
                             "\n\nPress Enter to play a new game\n\nPress Esc to exit game";
         gameOverText.gameObject.SetActive(true);

@@ -9,12 +9,14 @@ public class PlayerController : MonoBehaviour
     private InputAction _moveAction;
     private InputAction _restartAction;
     private InputAction _exitAction;
+    private Animator _animator;
 
     private void Start()
     {
         _moveAction = InputSystem.actions.FindAction("Move");
         _restartAction = InputSystem.actions.FindAction("Restart");
         _exitAction = InputSystem.actions.FindAction("Exit");
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -56,6 +58,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
         Move( position);
+    }
+
+    public void Attack()
+    {
+        _animator.SetTrigger("Attack");
     }
 
     private void TryToMove(Vector2Int position)
