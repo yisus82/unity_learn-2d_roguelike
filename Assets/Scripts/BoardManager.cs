@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class BoardManager : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class BoardManager : MonoBehaviour
     
     public int width;
     public int height;
-    public Vector2Int playerSpawnPosition;
+    public ExitObject exitPrefab;
     public Tile[] groundTiles;
     public Tile[] wallTiles;
     public FoodObject[] foodPrefabs;
@@ -25,15 +27,18 @@ public class BoardManager : MonoBehaviour
     private int _foodCount;
     private int _obstacleCount;
     private PlayerController _player;
-    
+
+    private void Awake()
+    {
+        _tilemap = GetComponentInChildren<Tilemap>();
+        _grid = GetComponentInChildren<Grid>();
+    }
+
     public void GenerateBoard(PlayerController player, int foodCount, int obstacleCount) {
         _player = player;
         _foodCount = foodCount;
         _obstacleCount = obstacleCount;
-        _tilemap = GetComponentInChildren<Tilemap>();
-        _grid = GetComponentInChildren<Grid>();
-        _cells = new Cell[width, height];
-        _emptyCells = new List<Vector2Int>();
+        ClearBoard();
         for (var y = 0; y < height; ++y)
         {
             for(var x = 0; x < width; ++x)
@@ -56,6 +61,7 @@ public class BoardManager : MonoBehaviour
                 _tilemap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
+        SetExitCell();
         SpawnPlayer();
         GenerateFood();
         GenerateObstacles();
@@ -74,9 +80,39 @@ public class BoardManager : MonoBehaviour
         }
         return _cells[cellIndex.x, cellIndex.y];
     }
+
+    private void ClearBoard()
+    {
+        _tilemap.ClearAllTiles();
+        var foodObjects = GameObject.FindGameObjectsWithTag("Food");
+        foreach (var foodObject in foodObjects)
+        {
+            Destroy(foodObject);
+        }
+        var obstacleObjects = GameObject.FindGameObjectsWithTag("Obstacle");
+        foreach (var obstacleObject in obstacleObjects)
+        {
+            Destroy(obstacleObject);
+        }
+        var exitObjects = GameObject.FindGameObjectsWithTag("Exit");
+        foreach (var exitObject in exitObjects)
+        {
+            Destroy(exitObject);
+        }
+        _cells = new Cell[width, height];
+        _emptyCells = new List<Vector2Int>();
+    }
+
+    private void SetExitCell()
+    {
+        var exitCellPosition = new Vector2Int(width - 2, height - 2);
+        AddCellObject(exitPrefab, exitCellPosition);
+        _emptyCells.Remove(exitCellPosition);
+    }
     
     private void SpawnPlayer()
     {
+        var playerSpawnPosition = new Vector2Int(1, 1);
         _player.Spawn(this, playerSpawnPosition);
         _emptyCells.Remove(playerSpawnPosition);
     }
@@ -101,9 +137,9 @@ public class BoardManager : MonoBehaviour
     {
         var obj = Instantiate(cellObject);
         obj.transform.position = CellToWorld(cellPosition);
+        obj.cellPosition = cellPosition;
         var cell = GetCell(cellPosition);
         cell.cellObject = obj;
-        cellObject.cellPosition = cellPosition;
     }
 
     public void RemoveCellObject(Vector2Int cellPosition)

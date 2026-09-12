@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,15 +7,38 @@ public class PlayerController : MonoBehaviour
     private BoardManager _boardManager;
     private Vector2Int _currentPosition;
     private InputAction _moveAction;
+    private InputAction _restartAction;
+    private InputAction _exitAction;
 
     private void Start()
     {
         _moveAction = InputSystem.actions.FindAction("Move");
+        _restartAction = InputSystem.actions.FindAction("Restart");
+        _exitAction = InputSystem.actions.FindAction("Exit");
     }
 
     private void Update()
     {
-        if (!_boardManager || _moveAction == null || !_moveAction.WasPressedThisFrame())
+        if (_exitAction.WasPressedThisFrame())
+        {
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+        
+        if (GameManager.Instance.IsGameOver)
+        {
+            if (!_restartAction.WasPressedThisFrame())
+            {
+                return;
+            }
+            Destroy(gameObject);
+            GameManager.Instance.Restart();
+        }
+
+        if (!_moveAction.WasPressedThisFrame())
         {
             return;
         }
@@ -48,7 +72,7 @@ public class PlayerController : MonoBehaviour
         if (containedObject)
         {
             containedObject.OnPlayerEntered();
-            if (containedObject is ObstacleObject)
+            if (containedObject is ObstacleObject || containedObject is ExitObject)
             {
                 return;
             }

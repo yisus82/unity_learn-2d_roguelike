@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - BoardManager
+  - Food
+  - Obstacle
+  - Exit
   layers:
   - Default
   - TransparentFX

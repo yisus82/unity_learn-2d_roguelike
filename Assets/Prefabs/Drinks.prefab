@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4321974959716829101}
   m_Layer: 0
   m_Name: Drinks
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,4 +105,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98190f8c0bce246ad8315655d6dea64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodObject
+  cellPosition: {x: 2, y: 1}
   foodAmount: 6
